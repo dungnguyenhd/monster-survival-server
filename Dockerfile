@@ -1,23 +1,16 @@
-# Sử dụng Node.js phiên bản mới nhất
-FROM node:20
+# Stage 1: Build
+FROM node:20 AS build
 
-# Thiết lập thư mục làm việc
-WORKDIR /usr/src/app
-
-# Sao chép tệp package.json và yarn.lock (nếu có)
+WORKDIR /app
 COPY package.json yarn.lock ./
-
-# Cài đặt dependencies
-RUN yarn install
-
-# Sao chép mã nguồn còn lại
+RUN yarn install --frozen-lockfile
 COPY . .
 
-# Biên dịch ứng dụng
-RUN npm run build
+# Stage 2: Production
+FROM node:20
 
-# Expose cổng 8080
-EXPOSE 8080
+WORKDIR /app
+COPY --from=build /app /app
+COPY --from=build /app/node_modules /app/node_modules
 
-# Chạy ứng dụng
-CMD ["node", "dist/main.js"]
+CMD ["yarn", "start"]
