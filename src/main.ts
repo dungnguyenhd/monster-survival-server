@@ -5,11 +5,13 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Enable CORS
   app.enableCors({
     origin: '*',
     methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
   });
 
+  // Swagger Configuration
   const config = new DocumentBuilder()
     .setTitle('Rent API Document')
     .setDescription('The rent API description')
@@ -25,6 +27,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(4000);
+  await app.listen();
 }
 bootstrap();
