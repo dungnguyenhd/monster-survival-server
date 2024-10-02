@@ -71,7 +71,3 @@ jobs:
           app-name: 'monstersurvival'
           slot-name: 'Production'
           package: .
-
-      - name: Start the application
-        run: |
-          yarn start:prod
