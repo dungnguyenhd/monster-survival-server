@@ -55,7 +55,7 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BDB703A964F64D8BB240CD0846116088 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_183C6EC04AE343E1B4C2E5AB39A45C81 }}
 
-     - name: Set environment variables
+      - name: Set environment variables
         run: |
           echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> $GITHUB_ENV
           echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> $GITHUB_ENV
