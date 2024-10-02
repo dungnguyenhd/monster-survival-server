@@ -62,7 +62,8 @@ jobs:
           echo "MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}" >> $GITHUB_ENV
           echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> $GITHUB_ENV
           echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> $GITHUB_ENV
-
+          echo "SECRETKEY=${{ secrets.SECRETKEY }}" >> $GITHUB_ENV
+          echo "EXPIRESIN=${{ secrets.EXPIRESIN }}" >> $GITHUB_ENV
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
