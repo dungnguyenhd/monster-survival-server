@@ -1,4 +1,7 @@
-name: Build and deploy NestJS app to Azure Web App - monstersurvival
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Node.js app to Azure Web App - monstersurvival
 
 on:
   push:
@@ -16,37 +19,53 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '22.x'
+          node-version: '20.x'
 
-      - name: Increase file descriptor limit
+      - name: npm install, build, and test
         run: |
-          ulimit -n 4096
+          npm install
+          npm run build --if-present
+          npm run test --if-present
 
-      - name: Install dependencies and build
-        run: |
-          yarn install
-          yarn build
+      - name: Zip artifact for deployment
+        run: zip release.zip ./* -r
 
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-app
+          path: release.zip
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: node-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
+      
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8A141326F32C4025B7C5CF27AB8BB5A4 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BDB703A964F64D8BB240CD0846116088 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_183C6EC04AE343E1B4C2E5AB39A45C81 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A9D0D13C9EDE4678AB859995018A38C8 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4E3DD82EBB624D4C9E1E70639825CB4E }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A703C03877884CAB8A7F9D8E3731BBE3 }}
 
-      - name: Set environment variables
-        run: |
-          echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> $GITHUB_ENV
-          echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> $GITHUB_ENV
-          echo "MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}" >> $GITHUB_ENV
-          echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> $GITHUB_ENV
-          echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> $GITHUB_ENV
-          echo "SECRETKEY=${{ secrets.SECRETKEY }}" >> $GITHUB_ENV
-          echo "EXPIRESIN=${{ secrets.EXPIRESIN }}" >> $GITHUB_ENV
       - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
         with:
           app-name: 'monstersurvival'
           slot-name: 'Production'
           package: .
+          
