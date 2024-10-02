@@ -1,16 +1,23 @@
-# Stage 1: Build
-FROM node:18-alpine AS build
+# Sử dụng Node.js phiên bản mới nhất
+FROM node:20
 
-WORKDIR /app
+# Thiết lập thư mục làm việc
+WORKDIR /usr/src/app
+
+# Sao chép tệp package.json và yarn.lock (nếu có)
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+
+# Cài đặt dependencies
+RUN yarn install
+
+# Sao chép mã nguồn còn lại
 COPY . .
 
-# Stage 2: Production
-FROM node:18-alpine
+# Biên dịch ứng dụng
+RUN npm run build
 
-WORKDIR /app
-COPY --from=build /app /app
-COPY --from=build /app/node_modules /app/node_modules
+# Expose cổng 8080
+EXPOSE 8080
 
-CMD ["yarn", "start"]
+# Chạy ứng dụng
+CMD ["node", "dist/main.js"]
