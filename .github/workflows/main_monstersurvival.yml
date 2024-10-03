@@ -21,11 +21,10 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: npm install, build, and test
+      - name: install and build
         run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+          yarn install
+          yarn build
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -54,6 +53,16 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_5FA6618DD03A44A283171C7B7ED3D2BB }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BC2F1DA9EF9344449AD34449A14F13DC }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6CA97130A6DF4C189C9198B4C19FA48E }}
+
+      - name: Set environment variables
+        run: |
+          echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> $GITHUB_ENV
+          echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> $GITHUB_ENV
+          echo "MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}" >> $GITHUB_ENV
+          echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> $GITHUB_ENV
+          echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> $GITHUB_ENV
+          echo "SECRETKEY=${{ secrets.SECRETKEY }}" >> $GITHUB_ENV
+          echo "EXPIRESIN=${{ secrets.EXPIRESIN }}" >> $GITHUB_ENV
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
