@@ -16,13 +16,13 @@ export class PlayerDataEntity extends BaseEntity {
   @Column()
   userId: number;
 
-  @Column()
+  @Column({default: 0})
   hallLevel: number;
 
-  @Column()
+  @Column({default: 0})
   ranking: number;
 
-  @Column()
+  @Column({default: 0})
   currentDay: number;
 
   @Column('json')
