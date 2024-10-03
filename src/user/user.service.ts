@@ -23,6 +23,7 @@ import { JwtService } from '@nestjs/jwt';
 import {
   AuthResponse,
   DefaultResponse,
+  RankDto,
   UserDto,
 } from './dto/user_response.dto';
 import { PlayerDataEntity } from './entities/user-save.entity';
@@ -38,7 +39,7 @@ export class UserService {
     private readonly playerDataRepository: Repository<PlayerDataEntity>,
     private configService: ConfigService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async signup(signupRequest: SignupRequest): Promise<AuthResponse> {
     const { username, password, display_name } = signupRequest;
@@ -46,7 +47,6 @@ export class UserService {
       where: {
         username,
       },
-      withDeleted: true,
     });
 
     if (existUser) throw new UnauthorizedException(DUPLICATE_USERNAME);
@@ -78,6 +78,30 @@ export class UserService {
     if (!is_password_match) throw new UnauthorizedException(PASSWORD_INCORRECT);
 
     return this.generateToken(user.id, user.username, user.role);
+  }
+
+  async connectAccount(userId: number, request: SignupRequest): Promise<UserDto> {
+    const { username, password, display_name } = request;
+    const existUser = await this.userRepository.findOne({
+      where: {
+        username,
+      },
+    });
+
+    if (existUser) throw new UnauthorizedException(DUPLICATE_USERNAME);
+
+    const updateUser = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!updateUser) throw new UnauthorizedException(USERNAME_INCORRECT);
+
+    updateUser.username = username;
+    updateUser.password = password;
+    updateUser.display_name = display_name;
+    return await this.userRepository.save(updateUser);
   }
 
   generateToken(id: number, username: string, role: number) {
@@ -176,5 +200,29 @@ export class UserService {
       where: { id: userId },
       relations: ['playerData'],
     });
+  }
+
+  async getRanking(userId: number, take: number, skip: number): Promise<RankDto | null> {
+    const data = await this.playerDataRepository.find({
+      order: {
+        ranking: 'DESC',
+      },
+      take: take,
+      skip: skip,
+    })
+
+    const playerRank = await this.playerDataRepository
+      .createQueryBuilder('player_data')
+      .select(
+        `RANK() OVER (ORDER BY player_data.ranking DESC)`,
+        'player_rank',
+      )
+      .where('player_data.userId = :userId', { userId })
+      .getRawOne();
+
+    return {
+      playerPlace: playerRank,
+      data: data,
+    }
   }
 }

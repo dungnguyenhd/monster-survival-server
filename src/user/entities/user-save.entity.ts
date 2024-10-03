@@ -20,6 +20,9 @@ export class PlayerDataEntity extends BaseEntity {
   hallLevel: number;
 
   @Column()
+  ranking: number;
+
+  @Column()
   currentDay: number;
 
   @Column('json')

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
   SaveRequestDto,
@@ -25,6 +25,11 @@ export class UserController {
     return await this.userService.signin(signinRequest);
   }
 
+  @Post("connect_account")
+  async connectAccount(@User() user: UserDto, @Body() signupRequest: SignupRequest): Promise<UserDto> {
+    return await this.userService.connectAccount(user.id, signupRequest);
+  }
+
   @Post('save')
   @Auth()
   async savePlayerData(
@@ -42,5 +47,11 @@ export class UserController {
   @Auth()
   async getPlayerData(@User() user: UserDto) {
     return await this.userService.getPlayerData(user.id);
+  }
+
+  @Get('ranking')
+  @Auth()
+  async getRanking(@User() user: UserDto, @Query('take') take: number, @Query('skip') skip: number) {
+    return await this.userService.getRanking(user.id, take, skip);
   }
 }

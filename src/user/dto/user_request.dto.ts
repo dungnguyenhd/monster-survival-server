@@ -92,6 +92,7 @@ export class SaveRequestDto {
 export class PlayerDataDto {
   @IsInt() hallLevel: number;
   @IsInt() currentDay: number;
+  @IsInt() ranking: number;
 
   @IsArray()
   @ValidateNested({ each: true })

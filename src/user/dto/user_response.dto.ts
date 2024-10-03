@@ -37,3 +37,8 @@ export class UserDto {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export class RankDto {
+  playerPlace: number;
+  data: PlayerDataDto[];
+}
