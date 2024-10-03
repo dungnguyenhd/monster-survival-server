@@ -2,7 +2,7 @@
   "name": "study",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "DungNT <dung1506362@nuce.edu.vn>",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -83,5 +83,7 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/dungnguyenhd/monster-survival-server.git"
 }
