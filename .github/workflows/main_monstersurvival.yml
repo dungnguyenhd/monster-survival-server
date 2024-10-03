@@ -53,10 +53,6 @@ jobs:
           echo "SECRETKEY=${{ secrets.SECRETKEY }}" >> $GITHUB_ENV
           echo "EXPIRESIN=${{ secrets.EXPIRESIN }}" >> $GITHUB_ENV
 
-      - name: Check if main.js is built
-        run: |
-          if [ -f dist/main.js ]; then echo "main.js exists"; else echo "main.js not found"; exit 1; fi
-
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -64,4 +60,3 @@ jobs:
           app-name: 'monstersurvival'
           slot-name: 'Production'
           package: .
-          start-up-command: 'yarn install && yarn start:prod'
