@@ -25,6 +25,10 @@ export class SignupRequest {
   @IsNotEmpty()
   @ApiProperty()
   display_name: string;
+
+  @IsNotEmpty()
+  @ApiProperty()
+  is_social: boolean;
 }
 
 export class SigninRequest {

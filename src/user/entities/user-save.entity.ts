@@ -4,6 +4,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
+  DeleteDateColumn,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { PlayerDataDto } from '../dto/user_request.dto';
@@ -36,6 +37,9 @@ export class PlayerDataEntity extends BaseEntity {
 
   @Column({ type: 'bigint' })
   lastSaveTime: number;
+
+  @DeleteDateColumn({ type: "datetime", nullable: true, default: null })
+  deletedAt: Date;
 
   @ManyToOne(() => UserEntity, (user) => user.playerData)
   user: UserEntity;

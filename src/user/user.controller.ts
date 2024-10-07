@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Query, Delete } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
   SaveRequestDto,
@@ -6,7 +6,7 @@ import {
   SignupRequest,
 } from './dto/user_request.dto';
 import { User } from 'src/common/decorators/user.decorator';
-import { AuthResponse, UserDto } from './dto/user_response.dto';
+import { AuthResponse, DefaultResponse, UserDto } from './dto/user_response.dto';
 import { Auth } from 'src/common/decorators/auth.decorator';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -25,9 +25,22 @@ export class UserController {
     return await this.userService.signin(signinRequest);
   }
 
-  @Post("connect_account")
+  @Post("connect-account")
+  @Auth()
   async connectAccount(@User() user: UserDto, @Body() signupRequest: SignupRequest): Promise<UserDto> {
     return await this.userService.connectAccount(user.id, signupRequest);
+  }
+
+  @Post("disconnect-account")
+  @Auth()
+  async disconnecetAccount(@User() user: UserDto, @Body() signupRequest: SignupRequest): Promise<AuthResponse> {
+    return await this.userService.disconnectAccount(user.id, signupRequest);
+  }
+
+  @Delete("delete-account")
+  @Auth()
+  async deleteAccount(@User() user: UserDto): Promise<DefaultResponse> {
+    return await this.userService.deleteAccount(user.id);
   }
 
   @Post('save')

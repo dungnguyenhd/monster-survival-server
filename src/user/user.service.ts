@@ -14,6 +14,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   DUPLICATE_USERNAME,
   PASSWORD_INCORRECT,
+  USER_NOT_FOUND,
   USERNAME_INCORRECT,
 } from 'src/common/constants/error.constant';
 import * as bcrypt from 'bcryptjs';
@@ -200,6 +201,51 @@ export class UserService {
       where: { id: userId },
       relations: ['playerData'],
     });
+  }
+
+  async deleteAccount(userId: number): Promise<DefaultResponse> {
+    try {
+      const saveId = await this.playerDataRepository.findOne({
+        where: { userId },
+      });
+
+      await this.playerDataRepository.softDelete(saveId.id);
+      await this.userRepository.softDelete(userId);
+      return {
+        status: 200,
+        message: "Delete success"
+      }
+    } catch (error) {
+      throw new BadRequestException('Delete fail');
+    }
+  }
+
+  async disconnectAccount(userId: number, signupRequest: SignupRequest): Promise<AuthResponse> {
+    try {
+      const { username, password, display_name } = signupRequest;
+      const existUser = await this.userRepository.findOne({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (existUser) {
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(password, salt);
+
+        existUser.username = username;
+        existUser.password = hash;
+        existUser.display_name = display_name;
+
+        const user = await this.userRepository.save(existUser);
+        delete user.password;
+        return this.generateToken(user.id, user.username, user.role);
+      } else {
+        throw new UnauthorizedException(USER_NOT_FOUND)
+      }
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   async getRanking(userId: number, take: number, skip: number): Promise<RankDto | null> {

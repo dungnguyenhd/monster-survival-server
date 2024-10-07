@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -34,6 +35,9 @@ export class UserEntity extends BaseEntity {
   @Column({ type: 'boolean', default: true })
   is_guest: boolean;
 
+  @Column({ type: 'boolean', default: false })
+  is_social: boolean;
+
   @Column()
   role: UserRole;
 
@@ -41,6 +45,9 @@ export class UserEntity extends BaseEntity {
     cascade: true,
   })
   playerData: PlayerDataEntity;
+
+  @DeleteDateColumn({ type: "datetime", nullable: true, default: null })
+  deletedAt: Date;
 
   @CreateDateColumn()
   createdAt: Date;
