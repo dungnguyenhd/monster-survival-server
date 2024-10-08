@@ -38,6 +38,9 @@ export class UserEntity extends BaseEntity {
   @Column({ type: 'boolean', default: false })
   is_social: boolean;
 
+  @Column({ type: 'varchar', default: 'no-region' })
+  region: string;
+
   @Column()
   role: UserRole;
 

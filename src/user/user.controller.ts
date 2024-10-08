@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Query, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Delete, Patch } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
   SaveRequestDto,
   SigninRequest,
   SignupRequest,
+  UpdateRequest,
 } from './dto/user_request.dto';
 import { User } from 'src/common/decorators/user.decorator';
 import { AuthResponse, DefaultResponse, UserDto } from './dto/user_response.dto';
@@ -54,6 +55,12 @@ export class UserController {
       saveRequestDto.encryptedData,
       saveRequestDto.nonce,
     );
+  }
+
+  @Patch('update-account')
+  @Auth()
+  async updateRegion(@User() user: UserDto, @Body() request: UpdateRequest): Promise<UserDto> {
+    return await this.userService.updateRegion(user.id, request);
   }
 
   @Get()

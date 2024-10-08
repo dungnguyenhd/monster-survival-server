@@ -115,3 +115,11 @@ export class PlayerDataDto {
   @IsInt() lastClaimDailyChestTime: number;
   @IsInt() lastClaimDailyGemTime: number;
 }
+
+export class UpdateRequest {
+  @IsString()
+  region: string;
+
+  @IsString()
+  display_name: string;
+}

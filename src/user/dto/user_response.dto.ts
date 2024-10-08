@@ -29,6 +29,13 @@ export class UserDto {
   role: UserRole;
 
   @IsString()
+  region: string;
+
+  is_social: boolean;
+
+  is_guest: boolean;
+
+  @IsString()
   display_name: string;
 
   playerData: PlayerDataDto;

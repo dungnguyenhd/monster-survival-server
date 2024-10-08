@@ -6,6 +6,7 @@ import {
 import {
   SigninRequest,
   SignupRequest,
+  UpdateRequest,
 } from './dto/user_request.dto';
 import { EntityManager, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -215,7 +216,7 @@ export class UserService {
         }
 
         user.username = `${user.username}_deleted_${user.id}`;
-        await entityManager.save(UserEntity ,user);
+        await entityManager.save(UserEntity, user);
 
         const saveId = await entityManager.findOne(PlayerDataEntity, {
           where: { userId },
@@ -284,5 +285,21 @@ export class UserService {
       playerPlace: playerRank,
       data: data,
     }
+  }
+
+  async updateRegion(userId: number, request: UpdateRequest): Promise<UserDto> {
+    const { region, display_name } = request;
+    const user = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) throw new UnauthorizedException(USER_NOT_FOUND)
+
+    user.region = region ? region : user.region;
+    user.display_name = display_name ? display_name : user.display_name;
+
+    return await this.userRepository.save(user);
   }
 }
