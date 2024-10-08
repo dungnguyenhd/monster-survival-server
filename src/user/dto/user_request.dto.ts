@@ -9,6 +9,7 @@ import {
 import { UserRole } from '../entities/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { UserDto } from './user_response.dto';
 
 export class SignupRequest {
   @IsNotEmpty()
@@ -114,6 +115,8 @@ export class PlayerDataDto {
   @IsInt() lastSaveTime: number;
   @IsInt() lastClaimDailyChestTime: number;
   @IsInt() lastClaimDailyGemTime: number;
+
+  user: UserDto;
 }
 
 export class UpdateRequest {

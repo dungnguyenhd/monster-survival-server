@@ -46,5 +46,6 @@ export class UserDto {
 
 export class RankDto {
   playerPlace: number;
+  playerData: PlayerDataDto;
   data: PlayerDataDto[];
 }

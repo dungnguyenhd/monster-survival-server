@@ -8,7 +8,7 @@ import {
   SignupRequest,
   UpdateRequest,
 } from './dto/user_request.dto';
-import { EntityManager, Repository } from 'typeorm';
+import { EntityManager, Not, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   DUPLICATE_USERNAME,
@@ -271,11 +271,21 @@ export class UserService {
 
   async getRanking(userId: number, take: number, skip: number): Promise<RankDto | null> {
     const data = await this.playerDataRepository.find({
+      where: {
+        userId : Not(userId),
+      },
+      relations: ['user'],
       order: {
         ranking: 'DESC',
       },
       take: take,
       skip: skip,
+    })
+
+    const playerData = await this.playerDataRepository.findOne({
+      where: {
+        userId: userId,
+      },
     })
 
     const playerRank = await this.playerDataRepository
@@ -288,7 +298,8 @@ export class UserService {
       .getRawOne();
 
     return {
-      playerPlace: playerRank,
+      playerPlace: Number(playerRank.player_rank),
+      playerData: playerData,
       data: data,
     }
   }
