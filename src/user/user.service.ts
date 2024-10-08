@@ -1,15 +1,13 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import {
-  PlayerDataDto,
   SigninRequest,
   SignupRequest,
 } from './dto/user_request.dto';
-import { DataSource, Like, Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   DUPLICATE_USERNAME,
@@ -207,16 +205,30 @@ export class UserService {
 
   async deleteAccount(userId: number): Promise<DefaultResponse> {
     try {
-      const saveId = await this.playerDataRepository.findOne({
-        where: { userId },
-      });
+      return await this.userRepository.manager.transaction(async (entityManager: EntityManager) => {
+        const user = await entityManager.findOne(UserEntity, {
+          where: { id: userId },
+        });
 
-      await this.playerDataRepository.softDelete(saveId.id);
-      await this.userRepository.softDelete(userId);
-      return {
-        status: 200,
-        message: "Delete success"
-      }
+        if (!user) {
+          throw new BadRequestException('User not found');
+        }
+
+        user.username = `${user.username}_deleted_${user.id}`;
+        await entityManager.save(UserEntity ,user);
+
+        const saveId = await entityManager.findOne(PlayerDataEntity, {
+          where: { userId },
+        });
+
+        await entityManager.softDelete(PlayerDataEntity, saveId.id);
+        await entityManager.softDelete(UserEntity, userId);
+
+        return {
+          status: 200,
+          message: "Delete success"
+        };
+      });
     } catch (error) {
       throw new BadRequestException('Delete fail');
     }

@@ -1,7 +1,6 @@
 import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { UserRole } from '../entities/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { PlayerDataEntity } from '../entities/user-save.entity';
 import { PlayerDataDto } from './user_request.dto';
 export class DefaultResponse {
   status: number;
