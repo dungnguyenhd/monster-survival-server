@@ -271,16 +271,13 @@ export class UserService {
 
   async getRanking(userId: number, take: number, skip: number): Promise<RankDto | null> {
     const data = await this.playerDataRepository.find({
-      where: {
-        userId : Not(userId),
-      },
       relations: ['user'],
       order: {
         ranking: 'DESC',
       },
       take: take,
       skip: skip,
-    })
+    });
 
     const playerData = await this.playerDataRepository.findOne({
       where: {
