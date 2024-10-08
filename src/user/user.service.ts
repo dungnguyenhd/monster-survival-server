@@ -283,6 +283,7 @@ export class UserService {
       where: {
         userId: userId,
       },
+      relations: ['user'],
     })
 
     const playerRank = await this.playerDataRepository
