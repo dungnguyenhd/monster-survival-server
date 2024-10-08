@@ -113,4 +113,6 @@ export class PlayerDataDto {
   resources: ResourcesDto;
 
   @IsInt() lastSaveTime: number;
+  @IsInt() lastClaimDailyChestTime: number;
+  @IsInt() lastClaimDailyGemTime: number;
 }

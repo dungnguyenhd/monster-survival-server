@@ -38,6 +38,12 @@ export class PlayerDataEntity extends BaseEntity {
   @Column({ type: 'bigint' })
   lastSaveTime: number;
 
+  @Column({ type: 'bigint' })
+  lastClaimDailyGemTime: number;
+
+  @Column({ type: 'bigint' })
+  lastClaimDailyChestTime: number;
+
   @DeleteDateColumn({ type: "datetime", nullable: true, default: null })
   deletedAt: Date;
 

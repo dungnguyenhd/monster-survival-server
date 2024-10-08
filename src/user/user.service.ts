@@ -179,6 +179,8 @@ export class UserService {
       playerDataEntity.inventoryData = playerDataDto.inventoryData;
       playerDataEntity.resources = playerDataDto.resources;
       playerDataEntity.lastSaveTime = playerDataDto.lastSaveTime;
+      playerDataEntity.lastClaimDailyChestTime = playerDataDto.lastClaimDailyChestTime;
+      playerDataEntity.lastClaimDailyGemTime = playerDataDto.lastClaimDailyGemTime;
 
       return await this.playerDataRepository.save(playerDataEntity);
     } catch (error) {
