@@ -81,7 +81,7 @@ export class UserService {
   }
 
   async connectAccount(userId: number, request: SignupRequest): Promise<UserDto> {
-    const { username, password, display_name } = request;
+    const { username, password, display_name, is_social } = request;
     const existUser = await this.userRepository.findOne({
       where: {
         username,
@@ -103,6 +103,8 @@ export class UserService {
     const hash = bcrypt.hashSync(password, salt);
     updateUser.password = hash;
     updateUser.display_name = display_name;
+    updateUser.is_guest = false;
+    updateUser.is_social = is_social;
     return await this.userRepository.save(updateUser);
   }
 
@@ -253,6 +255,8 @@ export class UserService {
         existUser.username = username;
         existUser.password = hash;
         existUser.display_name = display_name;
+        existUser.is_guest = true;
+        existUser.is_social = false;
 
         const user = await this.userRepository.save(existUser);
         delete user.password;
