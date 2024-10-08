@@ -99,7 +99,9 @@ export class UserService {
     if (!updateUser) throw new UnauthorizedException(USERNAME_INCORRECT);
 
     updateUser.username = username;
-    updateUser.password = password;
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+    updateUser.password = hash;
     updateUser.display_name = display_name;
     return await this.userRepository.save(updateUser);
   }
