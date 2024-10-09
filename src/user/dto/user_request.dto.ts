@@ -79,6 +79,24 @@ class ResourcesDto {
   @IsInt() gem: number;
 }
 
+class ConstructionCountDataDto {
+  @IsInt() wall: number;
+  @IsInt() archer: number;
+  @IsInt() canon: number;
+  @IsInt() ice: number;
+  @IsInt() flame: number;
+  @IsInt() electro: number;
+  @IsInt() poison: number;
+  @IsInt() air: number;
+  @IsInt() villager: number;
+  @IsInt() research: number;
+  @IsInt() resourceWood: number;
+  @IsInt() resourceStone: number;
+  @IsInt() decoration: number;
+  @IsInt() archerHeroConstruction: number;
+  @IsInt() wizardHeroConstruction: number;
+}
+
 class InventoryDto {
   @IsInt() constructionId: number;
   @IsInt() amount: number;
@@ -111,6 +129,10 @@ export class PlayerDataDto {
   @ValidateNested()
   @Type(() => ResourcesDto)
   resources: ResourcesDto;
+
+  @ValidateNested()
+  @Type(() => ConstructionCountDataDto)
+  constructionCountData: ConstructionCountDataDto;
 
   @IsInt() lastSaveTime: number;
   @IsInt() lastClaimDailyChestTime: number;

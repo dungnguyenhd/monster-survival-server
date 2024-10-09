@@ -35,6 +35,9 @@ export class PlayerDataEntity extends BaseEntity {
   @Column('json')
   resources: PlayerDataDto['resources'];
 
+  @Column('json')
+  constructionCountData: PlayerDataDto['constructionCountData'];
+
   @Column({ type: 'bigint' })
   lastSaveTime: number;
 

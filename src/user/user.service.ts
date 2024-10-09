@@ -181,6 +181,7 @@ export class UserService {
       playerDataEntity.listPlacementData = playerDataDto.listPlacementData;
       playerDataEntity.inventoryData = playerDataDto.inventoryData;
       playerDataEntity.resources = playerDataDto.resources;
+      playerDataEntity.constructionCountData = playerDataDto.constructionCountData;
       playerDataEntity.lastSaveTime = playerDataDto.lastSaveTime;
       playerDataEntity.ranking = playerDataDto.ranking;
       playerDataEntity.lastClaimDailyChestTime = playerDataDto.lastClaimDailyChestTime;
