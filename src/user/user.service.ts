@@ -8,7 +8,7 @@ import {
   SignupRequest,
   UpdateRequest,
 } from './dto/user_request.dto';
-import { EntityManager, Not, Repository } from 'typeorm';
+import { EntityManager, MoreThan, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   DUPLICATE_USERNAME,
@@ -287,17 +287,14 @@ export class UserService {
       relations: ['user'],
     })
 
-    const playerRank = await this.playerDataRepository
-      .createQueryBuilder('player_data')
-      .select(
-        `RANK() OVER (ORDER BY player_data.ranking DESC)`,
-        'player_rank',
-      )
-      .where('player_data.userId = :userId', { userId })
-      .getRawOne();
+    const higherRankCount = await this.playerDataRepository.count({
+      where: { ranking: MoreThan(playerData.ranking) }
+    });
+  
+    const playerRank = higherRankCount + 1;
 
     return {
-      playerPlace: Number(playerRank.player_rank),
+      playerPlace: Number(playerRank),
       playerData: playerData,
       data: data,
     }
