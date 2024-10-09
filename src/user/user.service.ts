@@ -182,6 +182,7 @@ export class UserService {
       playerDataEntity.inventoryData = playerDataDto.inventoryData;
       playerDataEntity.resources = playerDataDto.resources;
       playerDataEntity.lastSaveTime = playerDataDto.lastSaveTime;
+      playerDataEntity.ranking = playerDataDto.ranking;
       playerDataEntity.lastClaimDailyChestTime = playerDataDto.lastClaimDailyChestTime;
       playerDataEntity.lastClaimDailyGemTime = playerDataDto.lastClaimDailyGemTime;
 
