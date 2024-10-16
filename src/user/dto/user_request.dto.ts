@@ -150,6 +150,14 @@ export class PlayerDataDto {
   @Type(() => ResearchBonusDto)
   researchBonus: ResearchBonusDto;
 
+  @IsArray()
+  @IsNumber({}, { each: true })
+  equipedEquipment: number[];
+
+  @IsArray()
+  @IsNumber({}, { each: true })
+  ownedEquipment: number[];
+
   @IsNumber() lastSaveTime: number;
   @IsNumber() lastClaimDailyChestTime: number;
   @IsNumber() lastClaimDailyGemTime: number;

@@ -187,6 +187,8 @@ export class UserService {
       playerDataEntity.ranking = playerDataDto.ranking;
       playerDataEntity.lastClaimDailyChestTime = playerDataDto.lastClaimDailyChestTime;
       playerDataEntity.lastClaimDailyGemTime = playerDataDto.lastClaimDailyGemTime;
+      playerDataEntity.equipedEquipment = playerDataDto.equipedEquipment;
+      playerDataEntity.ownedEquipment = playerDataDto.ownedEquipment;
 
       return await this.playerDataRepository.save(playerDataEntity);
     } catch (error) {
