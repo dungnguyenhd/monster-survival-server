@@ -23,11 +23,12 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          yarn install
-          yarn build
+          npm install
+          npm run build --if-present
+          npm run test --if-present
 
       - name: Zip artifact for deployment
-        run: zip -r release.zip ./*
+        run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -56,19 +57,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8A165334816F427AA1EE1AA389D4466E }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B902BBA8F0E84F328400F742BBA322EE }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CC69F14B0CB449AAA6C77AEA463C2124 }}
-
-      - name: Set environment variables
-        run: |
-          echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> $GITHUB_ENV
-          echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> $GITHUB_ENV
-          echo "MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}" >> $GITHUB_ENV
-          echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> $GITHUB_ENV
-          echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> $GITHUB_ENV
-          echo "SECRETKEY=${{ secrets.SECRETKEY }}" >> $GITHUB_ENV
-          echo "EXPIRESIN=${{ secrets.EXPIRESIN }}" >> $GITHUB_ENV
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_CA1023D30FF24B60B0D0B02435BB4868 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4895A2593A2945E1AAD1DDA25E27B492 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7CCBC7E72AAE437AB444AF01B4C8810B }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
