@@ -39,7 +39,7 @@ export class UserService {
     private readonly playerDataRepository: Repository<PlayerDataEntity>,
     private configService: ConfigService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async signup(signupRequest: SignupRequest): Promise<AuthResponse> {
     const { username, password, display_name } = signupRequest;
