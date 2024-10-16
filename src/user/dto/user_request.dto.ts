@@ -1,7 +1,7 @@
 import {
   IsArray,
   IsBoolean,
-  IsInt,
+  IsNumber,
   IsNotEmpty,
   IsString,
   ValidateNested,
@@ -50,9 +50,9 @@ export class JwtPayload {
 }
 
 class SerializableVector3IntDto {
-  @IsInt() x: number;
-  @IsInt() y: number;
-  @IsInt() z: number;
+  @IsNumber() x: number;
+  @IsNumber() y: number;
+  @IsNumber() z: number;
 }
 
 class SerializablePlacementDataDto {
@@ -65,42 +65,54 @@ class SerializablePlacementDataDto {
   @Type(() => SerializableVector3IntDto)
   gridPosition: SerializableVector3IntDto;
 
-  @IsInt() Id: number;
-  @IsInt() Level: number;
+  @IsNumber() Id: number;
+  @IsNumber() Level: number;
   @IsBoolean() IsUpdating: boolean;
-  @IsInt() RemainingTime: number;
-  @IsInt() RemainingResource: number;
+  @IsNumber() RemainingTime: number;
+  @IsNumber() RemainingResource: number;
 }
 
 class ResourcesDto {
-  @IsInt() wood: number;
-  @IsInt() stone: number;
-  @IsInt() gold: number;
-  @IsInt() gem: number;
+  @IsNumber() wood: number;
+  @IsNumber() stone: number;
+  @IsNumber() gold: number;
+  @IsNumber() gem: number;
 }
 
 class ConstructionCountDataDto {
-  @IsInt() wall: number;
-  @IsInt() archer: number;
-  @IsInt() canon: number;
-  @IsInt() ice: number;
-  @IsInt() flame: number;
-  @IsInt() electro: number;
-  @IsInt() poison: number;
-  @IsInt() air: number;
-  @IsInt() villager: number;
-  @IsInt() research: number;
-  @IsInt() resourceWood: number;
-  @IsInt() resourceStone: number;
-  @IsInt() decoration: number;
-  @IsInt() archerHeroConstruction: number;
-  @IsInt() wizardHeroConstruction: number;
+  @IsNumber() wall: number;
+  @IsNumber() archer: number;
+  @IsNumber() canon: number;
+  @IsNumber() ice: number;
+  @IsNumber() flame: number;
+  @IsNumber() electro: number;
+  @IsNumber() poison: number;
+  @IsNumber() air: number;
+  @IsNumber() villager: number;
+  @IsNumber() research: number;
+  @IsNumber() resourceWood: number;
+  @IsNumber() resourceStone: number;
+  @IsNumber() decoration: number;
+  @IsNumber() archerHeroConstruction: number;
+  @IsNumber() wizardHeroConstruction: number;
+}
+
+class ResearchBonusDto {
+  @IsNumber() civilianHpBonus: number;
+  @IsNumber() wallHpBonus: number;
+  @IsNumber() towerHpBonus: number;
+  @IsNumber() towerAttackBonus: number;
+  @IsNumber() towerAttackSpeedBonus: number;
+  @IsNumber() towerAttackRangeBonus: number;
+  @IsNumber() heroAttackBonus: number;
+  @IsNumber() heroAttackSpeedBonus: number;
+  @IsNumber() decreaseBuildTimeBonus: number;
 }
 
 class InventoryDto {
-  @IsInt() constructionId: number;
-  @IsInt() amount: number;
-  @IsInt() constructionLevel: number;
+  @IsNumber() constructionId: number;
+  @IsNumber() amount: number;
+  @IsNumber() constructionLevel: number;
 }
 
 export class SaveRequestDto {
@@ -112,9 +124,9 @@ export class SaveRequestDto {
 }
 
 export class PlayerDataDto {
-  @IsInt() hallLevel: number;
-  @IsInt() currentDay: number;
-  @IsInt() ranking: number;
+  @IsNumber() hallLevel: number;
+  @IsNumber() currentDay: number;
+  @IsNumber() ranking: number;
 
   @IsArray()
   @ValidateNested({ each: true })
@@ -134,9 +146,13 @@ export class PlayerDataDto {
   @Type(() => ConstructionCountDataDto)
   constructionCountData: ConstructionCountDataDto;
 
-  @IsInt() lastSaveTime: number;
-  @IsInt() lastClaimDailyChestTime: number;
-  @IsInt() lastClaimDailyGemTime: number;
+  @ValidateNested()
+  @Type(() => ResearchBonusDto)
+  researchBonus: ResearchBonusDto;
+
+  @IsNumber() lastSaveTime: number;
+  @IsNumber() lastClaimDailyChestTime: number;
+  @IsNumber() lastClaimDailyGemTime: number;
 
   user: UserDto;
 }
