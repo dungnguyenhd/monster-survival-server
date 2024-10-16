@@ -105,6 +105,7 @@ export class UserService {
     updateUser.display_name = display_name;
     updateUser.is_guest = false;
     updateUser.is_social = is_social;
+
     return await this.userRepository.save(updateUser);
   }
 
