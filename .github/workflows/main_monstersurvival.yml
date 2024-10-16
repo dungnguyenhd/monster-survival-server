@@ -59,6 +59,7 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_CA1023D30FF24B60B0D0B02435BB4868 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4895A2593A2945E1AAD1DDA25E27B492 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7CCBC7E72AAE437AB444AF01B4C8810B }}
+          auth-type: 'federated'
 
       - name: Set environment variables
         run: |
