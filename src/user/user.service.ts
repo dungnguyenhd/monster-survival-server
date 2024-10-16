@@ -174,7 +174,6 @@ export class UserService {
         playerDataEntity = new PlayerDataEntity();
       }
 
-      // Map fields from DTO to Entity
       playerDataEntity.userId = userId;
       playerDataEntity.hallLevel = playerDataDto.hallLevel;
       playerDataEntity.currentDay = playerDataDto.currentDay;
