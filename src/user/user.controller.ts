@@ -69,7 +69,7 @@ export class UserController {
   }
 
   @Get('ranking')
-  @Auth()
+  @Auth() 
   async getRanking(@User() user: UserDto, @Query('take') take: number, @Query('skip') skip: number) {
     return await this.userService.getRanking(user.id, take, skip);
   }
