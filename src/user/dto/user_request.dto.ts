@@ -156,7 +156,7 @@ export class PlayerDataDto {
 
   @IsArray()
   @IsNumber({}, { each: true })
-  ownedEquipment: number[];
+  ownedEquipment: OwnedEquipment[];
 
   @IsNumber() lastSaveTime: number;
   @IsNumber() lastClaimDailyChestTime: number;
@@ -171,4 +171,12 @@ export class UpdateRequest {
 
   @IsString()
   display_name: string;
+}
+
+export class OwnedEquipment {
+  @IsNumber()
+  amount: number;
+
+  @IsNumber()
+  equipmentId: number;
 }
