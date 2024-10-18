@@ -8,7 +8,7 @@ COPY . .
 
 # Stage 2: Production
 FROM node:20-alpine
-
+ 
 WORKDIR /app
 COPY --from=build /app /app
 COPY --from=build /app/node_modules /app/node_modules
