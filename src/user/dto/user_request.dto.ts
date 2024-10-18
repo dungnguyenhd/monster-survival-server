@@ -152,7 +152,15 @@ export class PlayerDataDto {
 
   @IsArray()
   @IsNumber({}, { each: true })
-  equipedEquipment: number[];
+  equipedEquipmentSwordman: number[];
+
+  @IsArray()
+  @IsNumber({}, { each: true })
+  equipedEquipmentArcher: number[];
+
+  @IsArray()
+  @IsNumber({}, { each: true })
+  equipedEquipmentWizzard: number[];
 
   @IsArray()
   @IsNumber({}, { each: true })

@@ -42,7 +42,13 @@ export class PlayerDataEntity extends BaseEntity {
   researchBonus: PlayerDataDto['researchBonus'];
 
   @Column('json')
-  equipedEquipment: PlayerDataDto['equipedEquipment'];
+  equipedEquipmentSwordman: PlayerDataDto['equipedEquipmentSwordman'];
+
+  @Column('json')
+  equipedEquipmentArcher: PlayerDataDto['equipedEquipmentArcher'];
+
+  @Column('json')
+  equipedEquipmentWizzard: PlayerDataDto['equipedEquipmentWizzard'];
 
   @Column('json')
   ownedEquipment: PlayerDataDto['ownedEquipment'];
