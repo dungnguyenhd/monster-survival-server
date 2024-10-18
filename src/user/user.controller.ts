@@ -47,8 +47,7 @@ export class UserController {
   @Post('save')
   @Auth()
   async savePlayerData(
-    @User() user: UserDto,
-    @Body() saveRequestDto: SaveRequestDto,
+    @User() user: UserDto, @Body() saveRequestDto: SaveRequestDto,
   ) {
     return await this.userService.savePlayerData(
       user.id,
