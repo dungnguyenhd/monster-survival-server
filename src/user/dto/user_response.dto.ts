@@ -32,7 +32,6 @@ export class UserDto {
   region: string;
 
   is_social: boolean;
-
   is_guest: boolean;
 
   @IsString()
