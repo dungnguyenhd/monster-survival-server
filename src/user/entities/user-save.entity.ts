@@ -57,6 +57,9 @@ export class PlayerDataEntity extends BaseEntity {
   lastSaveTime: number;
 
   @Column({ type: 'bigint' })
+  remainDailyGem: number;
+
+  @Column({ type: 'bigint' })
   lastClaimDailyGemTime: number;
 
   @Column({ type: 'bigint' })

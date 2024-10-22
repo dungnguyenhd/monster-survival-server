@@ -167,6 +167,7 @@ export class PlayerDataDto {
   ownedEquipment: OwnedEquipment[];
 
   @IsNumber() lastSaveTime: number;
+  @IsNumber() remainDailyGem: number;
   @IsNumber() lastClaimDailyChestTime: number;
   @IsNumber() lastClaimDailyGemTime: number;
 

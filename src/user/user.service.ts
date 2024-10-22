@@ -184,6 +184,7 @@ export class UserService {
       playerDataEntity.constructionCountData = playerDataDto.constructionCountData;
       playerDataEntity.researchBonus = playerDataDto.researchBonus;
       playerDataEntity.lastSaveTime = playerDataDto.lastSaveTime;
+      playerDataEntity.remainDailyGem = playerDataDto.remainDailyGem;
       playerDataEntity.ranking = playerDataDto.ranking;
       playerDataEntity.lastClaimDailyChestTime = playerDataDto.lastClaimDailyChestTime;
       playerDataEntity.lastClaimDailyGemTime = playerDataDto.lastClaimDailyGemTime;
