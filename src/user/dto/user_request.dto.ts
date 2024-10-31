@@ -98,15 +98,12 @@ class ConstructionCountDataDto {
 }
 
 class ResearchBonusDto {
-  @IsNumber() civilianHpBonus: number;
-  @IsNumber() wallHpBonus: number;
-  @IsNumber() towerHpBonus: number;
-  @IsNumber() towerAttackBonus: number;
-  @IsNumber() towerAttackSpeedBonus: number;
-  @IsNumber() towerAttackRangeBonus: number;
-  @IsNumber() heroAttackBonus: number;
-  @IsNumber() heroAttackSpeedBonus: number;
-  @IsNumber() decreaseBuildTimeBonus: number;
+  @IsNumber() contructionsHpResearchLevel: number;
+  @IsNumber() towerAttackRangeResearchLevel: number;
+  @IsNumber() towerAttackResearchLevel: number;
+  @IsNumber() towerAttackSpeedResearchLevel: number;
+  @IsNumber() decreaseBuildTimeResearchLevel: number;
+  @IsNumber() productionSpeedResearchLevel: number;
 }
 
 class InventoryDto {
