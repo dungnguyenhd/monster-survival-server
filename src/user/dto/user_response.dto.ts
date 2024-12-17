@@ -33,6 +33,7 @@ export class UserDto {
 
   is_social: boolean;
   is_guest: boolean;
+  is_online: boolean;
 
   @IsString()
   display_name: string;

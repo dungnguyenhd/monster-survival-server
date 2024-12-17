@@ -177,6 +177,9 @@ export class UpdateRequest {
 
   @IsString()
   display_name: string;
+
+  @IsBoolean()
+  is_online: boolean;
 }
 
 export class OwnedEquipment {

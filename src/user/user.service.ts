@@ -193,6 +193,7 @@ export class UserService {
       playerDataEntity.equipedEquipmentWizzard = playerDataDto.equipedEquipmentWizzard;
       playerDataEntity.ownedEquipment = playerDataDto.ownedEquipment;
 
+      await this.userRepository.update(userId, { is_online: false });
       return await this.playerDataRepository.save(playerDataEntity);
     } catch (error) {
       console.error('Error saving player data:', error.message);
@@ -210,10 +211,12 @@ export class UserService {
   }
 
   async getPlayerData(userId: number): Promise<UserDto | null> {
-    return await this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { id: userId },
       relations: ['playerData'],
     });
+
+    return user;
   }
 
   async deleteAccount(userId: number): Promise<DefaultResponse> {
@@ -308,7 +311,7 @@ export class UserService {
   }
 
   async updateRegion(userId: number, request: UpdateRequest): Promise<UserDto> {
-    const { region, display_name } = request;
+    const { region, display_name, is_online } = request;
     const user = await this.userRepository.findOne({
       where: {
         id: userId,
@@ -319,6 +322,7 @@ export class UserService {
 
     user.region = region ? region : user.region;
     user.display_name = display_name ? display_name : user.display_name;
+    user.is_online = is_online ? is_online : user.is_online;
 
     return await this.userRepository.save(user);
   }
